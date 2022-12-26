@@ -1,8 +1,10 @@
 import numpy as np
 import contextlib
+import torch
 
 # Configures numpy print options
 @contextlib.contextmanager
+
 def _printoptions(*args, **kwargs):
     original = np.get_printoptions()
     np.set_printoptions(*args, **kwargs)
@@ -90,8 +92,45 @@ class FrozenLake(Environment):
         
         self.absorbing_state = n_states - 1
         
-        # TODO:
+        self.next = 0
+        #creating a hole count to check if the idicies are holes and add them to a list
+        #at the same time adding the boundaries to a new list
+        k = 0
+        self.hole = []
+        #here we initialize four lists that is going to be used to determine the boundary: top, bottom, left and right
+        self.boundary_top = []
+        self.boundary_left = []
+        self.boundary_right = []
+        self.boundary_bottom = []
+
+        #code
+        for i, row in enumerate(lake):
+            for j, char in enumerate(row):
+                if(char == "#"):
+                    self.hole.append(k)
+                
+                if(char == "&"):
+                    self.start = k
+                
+                if(char == "$"):
+                    self.goal = k
+                
+                if(i == 0 and j < len(self.lake[0])):
+                    self.boundary_top.append(k) #top boundary
+
+                if(k % len(self.lake[0]) == 0):
+                    self.boundary_left.append(k) #left boundary
+                
+                if((k + 1) % len(self.lake[0]) == 0):
+                    self.boundary_right.append(k) #right boundary
+                
+                k += 1
         
+        #as there was no way to add the bottom boundary line, i just went with this method
+        #in order to find the bottom boundary:
+        for i in range(self.boundary_left[-1], self.boundary_right[-1] + 1):
+            self.boundary_bottom.append(i)
+
         Environment.__init__(self, n_states, n_actions, max_steps, pi, seed=seed)
         
     def step(self, action):
@@ -101,12 +140,59 @@ class FrozenLake(Environment):
         
         return state, reward, done
         
+
     def p(self, next_state, state, action):
-        # TODO:
-    
+        prob = 0.025
+        next = 0
+        jump_vertical = len(self.lake[0])
+        w = np.abs(jump_vertical - state)
+        a = np.abs(state - 1)
+        s =  np.abs(jump_vertical + state)
+        d =  np.abs(1 + state)
+
+        #these actions if in the boundary return 0 p-val for any move made to go outside the boundary
+        if(action == 0):
+            next = w
+
+            if(state in self.boundary_top):
+                next = state
+
+        if(action == 1):
+            next = a
+
+            if(state in self.boundary_left):
+                next = state
+        
+        if(action == 2):
+            next = s
+
+            if(state in self.boundary_bottom):
+                next = state
+
+        if(action == 3):
+            next = d
+
+            if(state in self.boundary_right):
+                next = state
+
+        if(next_state == next):
+            prob += 0.9
+
+        if state in self.hole:
+            prob = 0
+
+        if(next_state not in [w, a, s, d, state]):
+            prob = 0
+
+        return prob
+
     def r(self, next_state, state, action):
-        # TODO:
-   
+        if(self.state == self.goal):
+            return 1
+        
+        else:
+            return 0
+
     def render(self, policy=None, value=None):
         if policy is None:
             lake = np.array(self.lake_flat)
@@ -392,9 +478,7 @@ class ReplayBuffer:
         # TODO:
         
         
-def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, 
-                            batch_size, target_update_frequency, buffer_size, 
-                            kernel_size, conv_out_channels, fc_out_features, seed):
+def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, batch_size, target_update_frequency, buffer_size, kernel_size, conv_out_channels, fc_out_features, seed):
     random_state = np.random.RandomState(seed)
     replay_buffer = ReplayBuffer(buffer_size, random_state)
 
@@ -479,15 +563,13 @@ def main():
     print('')
 
     print('## Sarsa')
-    policy, value = sarsa(env, max_episodes, eta=0.5, gamma=gamma,
-                          epsilon=0.5, seed=seed)
+    policy, value = sarsa(env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
     env.render(policy, value)
 
     print('')
 
     print('## Q-learning')
-    policy, value = q_learning(env, max_episodes, eta=0.5, gamma=gamma,
-                               epsilon=0.5, seed=seed)
+    policy, value = q_learning(env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
     env.render(policy, value)
 
     print('')
@@ -496,8 +578,7 @@ def main():
 
     print('## Linear Sarsa')
 
-    parameters = linear_sarsa(linear_env, max_episodes, eta=0.5, gamma=gamma, 
-                              epsilon=0.5, seed=seed)
+    parameters = linear_sarsa(linear_env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
     policy, value = linear_env.decode_policy(parameters)
     linear_env.render(policy, value)
 
@@ -505,8 +586,7 @@ def main():
 
     print('## Linear Q-learning')
 
-    parameters = linear_q_learning(linear_env, max_episodes, eta=0.5, gamma=gamma, 
-                                   epsilon=0.5, seed=seed)
+    parameters = linear_q_learning(linear_env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
     policy, value = linear_env.decode_policy(parameters)
     linear_env.render(policy, value)
 
@@ -516,10 +596,6 @@ def main():
 
     print('## Deep Q-network learning')
 
-    dqn = deep_q_network_learning(image_env, max_episodes, learning_rate=0.001, 
-                                  gamma=gamma,  epsilon=0.2, batch_size=32,
-                                  target_update_frequency=4, buffer_size=256,
-                                  kernel_size=3, conv_out_channels=4,
-                                  fc_out_features=8, seed=4)
+    dqn = deep_q_network_learning(image_env, max_episodes, learning_rate=0.001, gamma=gamma,  epsilon=0.2, batch_size=32, target_update_frequency=4, buffer_size=256, kernel_size=3, conv_out_channels=4, fc_out_features=8, seed=4)
     policy, value = image_env.decode_policy(dqn)
     image_env.render(policy, value)
