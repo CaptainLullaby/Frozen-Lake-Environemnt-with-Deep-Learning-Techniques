@@ -1,4 +1,5 @@
-from Code import *
+from FrozenLakeEnvironment import *
+
     # Small lake
 lake = [['&', '.', '.', '.'],
         ['.', '#', '.', '#'],
