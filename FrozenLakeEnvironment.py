@@ -29,8 +29,6 @@ class EnvironmentModel:
         
     def draw(self, state, action):
         p = [self.p(ns, state, action) for ns in range(self.n_states)]
-        print(p)
-        print(np.sum(p))
         next_state = self.random_state.choice(self.n_states, p=p)
         reward = self.r(next_state, state, action)
         
@@ -163,72 +161,77 @@ class FrozenLake(Environment):
         s = state + len(self.lake[0])
         d = state + 1
         
-        #these actions if in the boundary return the added p-val for any move made to go outside the boundary into the same state
-        
-        #top boundary
-        if state in self.boundary_top:
-            w = state
-            if action == 0 and next_state == state:
-                prob = (1 - self.slip)
-        
-        else: 
-            if action == 0 and next_state == w:
-                prob += (1 - self.slip)
+        if (state in self.hole or state == self.goal) or state == self.absorbing_state:
+            if next_state == self.absorbing_state:
+                return 1
             
+            else:
+                return 0
         
-        
-        #left boundary
-        if state in self.boundary_left:
-            a = state
-            if action == 1 and next_state == state:
-                prob += (1 - self.slip)
-        
-        else: 
-            if action == 1 and next_state == a:
-                prob += (1 - self.slip)
-        
-        
-        #bottom boundary
-        if state in self.boundary_bottom:
-            s = state
-            if action == 2 and next_state == state:
-                prob += (1 - self.slip)
-        
-        else: 
-            if action == 2 and next_state == s:
-                prob += (1 - self.slip)
-        
-        
-        #right boundary    
-        if state in self.boundary_right:
-            d = state
-            if action == 3 and next_state == state:
-                prob += (1 - self.slip)
-        
-        else: 
-            if action == 3 and next_state == d:
-                prob += (1 - self.slip)
-         
-        #probability addition   
-        if next_state == w:
-            prob += self.slip_val
-        
-        if next_state == a:
-            prob += self.slip_val
-        
-        if next_state == s:
-            prob += self.slip_val
-        
-        if next_state == d:
-            prob += self.slip_val
+        else:
+            #these actions if in the boundary return the added p-val for any move made to go outside the boundary into the same state
             
-        if state in self.hole:
-            self.state = self.absorbing_state
+            #top boundary
+            if state in self.boundary_top:
+                w = state
+                if action == 0 and next_state == state:
+                    prob = (1 - self.slip)
             
-        return prob
+            else: 
+                if action == 0 and next_state == w:
+                    prob += (1 - self.slip)
+                
+            
+            
+            #left boundary
+            if state in self.boundary_left:
+                a = state
+                if action == 1 and next_state == state:
+                    prob += (1 - self.slip)
+            
+            else: 
+                if action == 1 and next_state == a:
+                    prob += (1 - self.slip)
+            
+            
+            #bottom boundary
+            if state in self.boundary_bottom:
+                s = state
+                if action == 2 and next_state == state:
+                    prob += (1 - self.slip)
+            
+            else: 
+                if action == 2 and next_state == s:
+                    prob += (1 - self.slip)
+            
+            
+            #right boundary    
+            if state in self.boundary_right:
+                d = state
+                if action == 3 and next_state == state:
+                    prob += (1 - self.slip)
+            
+            else: 
+                if action == 3 and next_state == d:
+                    prob += (1 - self.slip)
+            
+            #probability addition   
+            if next_state == w:
+                prob += self.slip_val
+            
+            if next_state == a:
+                prob += self.slip_val
+            
+            if next_state == s:
+                prob += self.slip_val
+            
+            if next_state == d:
+                prob += self.slip_val
+
+            return prob
 
     def r(self, next_state, state, action):
-        if(self.state == self.goal):
+        if(state == self.goal and next_state == self.absorbing_state):
             return 1
         
         else:
@@ -245,7 +248,7 @@ class FrozenLake(Environment):
         else:
             # UTF-8 arrows look nicer, but cannot be used in LaTeX
             # https://www.w3schools.com/charsets/ref_utf_arrows.asp
-            actions = ['^', '<', '_', '>']
+            actions = ['↑', '←', '↓', '→']
             
             print('Lake:')
             print(self.lake)
