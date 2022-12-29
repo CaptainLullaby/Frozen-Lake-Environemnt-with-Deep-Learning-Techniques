@@ -24,7 +24,7 @@ lake = [['&', '.', '.', '.'],
 seed = 0
 env = FrozenLake(lake, slip=0.1, max_steps=16, seed=0)
 gamma = 0.5
-# play(env)
+#play(env)
 
 #print('## Sarsa')
 max_episodes = 4000

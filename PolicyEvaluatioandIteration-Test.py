@@ -7,7 +7,7 @@ def policy_evaluation(env, policy, gamma, theta, max_iterations):
     # TODO:
     iterations = 0
     delta_1 = np.zeros(1,dtype=np.float)
-    action = ['w', 'a', 's', 'd']
+    action = [0, 1, 2, 3]
     while delta_1 > theta and iterations <= max_iterations:
       delta_1 = np.zeros(1,dtype=np.float)
       iterations += 1
@@ -26,9 +26,9 @@ def policy_improvement(env, value, gamma):
     # TODO:
     for i in policy:
       delta_2 = np.zeros(1,dtype=np.float)
-      action = ['w', 'a', 's', 'd']
+      action = [0, 1, 2, 3]
       for a in action:
-        next_state = env.step(a)[0]
+        next_state, r, done = env.step(a)
         Q_policy = (env.p(next_state,i,a)*(env.r(next_state,i,a)+gamma*value[next_state]))
         delta_2 = np.insert(delta_2,1,Q_policy)
       max_value_action = action[np.argmax(delta_2)]
@@ -41,7 +41,7 @@ def policy_iteration(env, gamma, theta, max_iterations, policy=None):
     else:
         policy = np.array(policy, dtype=int)
     iterations = 0
-    delta_3 = np.zeros(env.n_states,dtype=int)
+    delta_3 = sum(np.ones(env.n_states,dtype=int))
     while delta_3 != 0 and iterations <= max_iterations:
       delta_3 = np.zeros(env.n_states,dtype=int)
       iterations += 1
@@ -60,7 +60,8 @@ def value_iteration(env, gamma, theta, max_iterations, value=None):
         value = np.array(value, dtype=np.float)
     
     iterations = 0
-    action = ['w', 'a', 's', 'd']
+    action = [0, 1, 2, 3]
+    delta_4 = sum(np.zeros(1,dtype=np.float))
     
     while delta_4 > theta and iterations <= max_iterations:
       delta_4 = np.zeros(1,dtype=np.float)
