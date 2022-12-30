@@ -28,14 +28,14 @@ gamma = 0.5
 
 #print('## Sarsa')
 max_episodes = 4000
-#policy, value = sarsa(env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
-#env.render(policy, value)
+policy, value = sarsa(env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
+env.render(policy, value)
 
 print('')
 
 print('## Q-learning')
-#policy, value = q_learning(env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
-#env.render(policy, value)
+policy, value = q_learning(env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
+env.render(policy, value)
 
 print('## Policy iteration')
 policy, value = policy_iteration(env, gamma, theta=0.001, max_iterations=128)
