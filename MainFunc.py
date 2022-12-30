@@ -1,5 +1,5 @@
 from FrozenLakeEnvironment import *
-from PolicyEvaluationandIteration import *
+from TabularModelBasedRL import *
 from TabularModelFreeRL import *
 #from DeepReinforcedLearning import *
 

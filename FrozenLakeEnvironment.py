@@ -92,6 +92,9 @@ class FrozenLake(Environment):
         
         self.absorbing_state = n_states - 1
         
+        #defining some actions
+        self.actions = [0, 1, 2, 3]
+        
         #creating a hole count to check if the idicies are holes and add them to a list
         #at the same time adding the boundaries to a new list
         k = 0
@@ -236,6 +239,9 @@ class FrozenLake(Environment):
         
         else:
             return 0
+    
+    def a(self, state):
+        return self.actions
 
     def render(self, policy=None, value=None):
         if policy is None:
