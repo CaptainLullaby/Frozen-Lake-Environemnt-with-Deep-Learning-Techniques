@@ -1,4 +1,5 @@
 import numpy as np
+from Epsilongreedy import *
 
 def policy_evaluation(env, policy, gamma, theta, max_iterations = 0):
     value = np.zeros(env.n_states, dtype=np.float)
@@ -18,7 +19,6 @@ def policy_evaluation(env, policy, gamma, theta, max_iterations = 0):
 def policy_improvement(env, value, gamma):
     
     policy = np.zeros(env.n_states, dtype=int)
-    
     action = env.a  ##########? what is this
     
     flag = True

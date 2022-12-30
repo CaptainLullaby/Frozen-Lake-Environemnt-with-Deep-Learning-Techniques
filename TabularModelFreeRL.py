@@ -1,14 +1,7 @@
 from FrozenLakeEnvironment import *
 import random
 
-def epgreedy(epsilon, q):
-    p = random.uniform(0,1)
-    
-    if(p > epsilon):
-        return random.randint(0, 3)
-    
-    else:
-        return q.argmax()  
+from Epsilongreedy import *
 
 def sarsa(env, max_episodes, eta, gamma, epsilon, seed=None):
     random_state = np.random.RandomState(seed)
