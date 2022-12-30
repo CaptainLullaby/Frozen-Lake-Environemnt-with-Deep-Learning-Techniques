@@ -1,6 +1,10 @@
-from FrozenLakeEnvironment import *
-from TabularModelBasedRL import *
-from TabularModelFreeRL import *
+from Environment.FrozenLakeEnvironment import *
+from TabularModelBasedRL.PolicyIteration import *
+from TabularModelBasedRL.ValueIteration import *
+from TabularModelFreeRL.SarsaLearning import *
+from TabularModelFreeRL.QLearning import *
+from _init_.playEnv import *
+from _init_.contextlib import *
 #from DeepReinforcedLearning import *
 
 def main():

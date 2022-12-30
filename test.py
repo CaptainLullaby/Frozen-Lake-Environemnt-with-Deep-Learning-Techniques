@@ -1,8 +1,10 @@
-from FrozenLakeEnvironment import *
-from TabularModelFreeRL import *
-from TabularModelBasedRL import *
-from NonTabularModelFreeRL import *
-
+from Environment.FrozenLakeEnvironment import *
+from TabularModelBasedRL.PolicyIteration import *
+from TabularModelBasedRL.ValueIteration import *
+from TabularModelFreeRL.SarsaLearning import *
+from TabularModelFreeRL.QLearning import *
+from _init_.playEnv import *
+from _init_.contextlib import *
 
 #big lake
 

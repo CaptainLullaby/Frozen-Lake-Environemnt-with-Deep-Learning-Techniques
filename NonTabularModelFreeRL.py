@@ -1,5 +1,5 @@
 import numpy as np
-from Epsilongreedy import *
+from _init_.Epsilongreedy import *
 
 class LinearWrapper:
     def __init__(self, env):

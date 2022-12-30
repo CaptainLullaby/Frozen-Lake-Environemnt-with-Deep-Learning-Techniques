@@ -1,4 +1,4 @@
-from FrozenLakeEnvironment import *
+from Environment.FrozenLakeEnvironment import *
 
 class FrozenLakeImageWrapper:
     def __init__(self, env):

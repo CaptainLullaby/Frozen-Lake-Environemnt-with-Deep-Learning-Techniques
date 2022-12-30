@@ -1,6 +1,3 @@
-import numpy as np
-from Epsilongreedy import *
-
 def policy_evaluation(env, policy, gamma, theta, max_iterations = 0):
     value = np.zeros(env.n_states, dtype=np.float)
     
