@@ -1,3 +1,6 @@
+from _init_._init_ import *
+import numpy as np
+
 class EnvironmentModel:
     def __init__(self, n_states, n_actions, seed=None):
         self.n_states = n_states

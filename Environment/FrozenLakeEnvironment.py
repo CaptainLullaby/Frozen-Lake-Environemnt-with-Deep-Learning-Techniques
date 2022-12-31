@@ -1,5 +1,6 @@
 from Environment.EnvironmentModel import *
-from _init_.contextlib import * 
+from _init_.contextlib import _printoptions
+import numpy as np
        
 class FrozenLake(Environment):
     def __init__(self, lake, slip, max_steps, seed=None):

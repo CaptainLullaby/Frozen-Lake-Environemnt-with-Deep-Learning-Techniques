@@ -1,4 +1,6 @@
 from _init_.Epsilongreedy import *
+from _init_._init_ import *
+import numpy as np
 
 def sarsa(env, max_episodes, eta, gamma, epsilon, seed=None):
     random_state = np.random.RandomState(seed)

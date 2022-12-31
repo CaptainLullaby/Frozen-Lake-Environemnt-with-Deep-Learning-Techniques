@@ -1,3 +1,6 @@
+from _init_._init_ import *
+import numpy as np
+
 def value_iteration(env, gamma, theta, max_iterations, value=None):
     
     if value is None:
