@@ -1,4 +1,6 @@
-from Environment.FrozenLakeEnvironment import *
+from _init_._init_ import *
+import torch
+import numpy as np
 
 class FrozenLakeImageWrapper:
     def __init__(self, env):
@@ -78,7 +80,7 @@ class DeepQNetwork(torch.nn.Module):
         target = torch.Tensor(rewards) + gamma * next_q
 
         # TODO: the loss is the mean squared error between `q` and `target`
-        loss = 0
+        loss = np.mean((q - target)**2)
 
         self.optimizer.zero_grad()
         loss.backward()
