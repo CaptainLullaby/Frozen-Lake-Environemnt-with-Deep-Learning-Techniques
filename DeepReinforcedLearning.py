@@ -1,6 +1,7 @@
 from _init_._init_ import *
 import torch
 import numpy as np
+from _init_.Check import check_char
 
 class FrozenLakeImageWrapper:
     def __init__(self, env):
@@ -12,12 +13,15 @@ class FrozenLakeImageWrapper:
         self.state_shape = (4, lake.shape[0], lake.shape[1])
 
         lake_image = [(lake == c).astype(float) for c in ['&', '#', '$']]
-
+        
         self.state_image = {lake.absorbing_state: np.stack([np.zeros(lake.shape)] + lake_image)}
-        for state in range(lake.size):
-            # TODO: 
-            
-            pass
+        
+        state_shape = list(self.state_shape)
+        state_shape[0] = check_char(lake, "@")
+        state_shape[1] = check_char(lake, "&")
+        state_shape[2] = check_char(lake, "#")
+        state_shape[3] = check_char(lake, "$")
+                
 
     def encode_state(self, state):
         return self.state_image[state]
@@ -60,8 +64,7 @@ class DeepQNetwork(torch.nn.Module):
 
     def forward(self, x):
         x = torch.tensor(x, dtype=torch.float)
-        
-        # TODO: 
+        # 
 
     def train_step(self, transitions, gamma, tdqn):
         states = np.array([transition[0] for transition in transitions])
@@ -79,8 +82,7 @@ class DeepQNetwork(torch.nn.Module):
 
         target = torch.Tensor(rewards) + gamma * next_q
 
-        # TODO: the loss is the mean squared error between `q` and `target`
-        loss = np.mean((q - target)**2)
+        loss = np.mean((q - target)**2) # the loss is the mean squared error between `q` and `target`
 
         self.optimizer.zero_grad()
         loss.backward()
@@ -99,7 +101,7 @@ class ReplayBuffer:
         self.buffer.append(transition)
 
     def draw(self, batch_size):
-        # TODO:
+        #
         pass
         
 def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, batch_size, target_update_frequency, buffer_size, kernel_size, conv_out_channels, fc_out_features, seed):

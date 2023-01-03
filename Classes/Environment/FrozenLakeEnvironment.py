@@ -176,8 +176,6 @@ class FrozenLake(Environment):
         else:
             return 0
     
-    def a(self, state):
-        return self.actions
 
     def render(self, policy=None, value=None):
         if policy is None:
