@@ -10,22 +10,23 @@ def linear_sarsa(env, max_episodes, eta, gamma, epsilon, seed=None):
     
     theta = np.zeros(env.n_features)
     gamma_decay = np.linspace(gamma, 0, max_episodes)
-    
+    q = np.zeros(4)
     
     for i in range(max_episodes):
         features = env.reset()
-        q = features.dot(theta)
-        a = epgreedy(epsilon[i], q)
-        e = np.zeros(env.n_features)
+        for a in env.actions:
+            q[a] = features.dot(theta[i])
+        #e = np.zeros(env.n_features)
         done  = False
-        
         while not done:
+            a = epgreedy(epsilon[i], q)
             features_, r, done = env.step(a)
-            a_ = epgreedy(epsilon[i], q)
-            e = e + features[a]
-            theta = theta + eta[i] * (r + gamma * q[a_] - q[a]) * e 
-            e = gamma_decay[i] * e + features[a]
-            a = a_
+            delta = r - q
+            q_ = np.zeros(4)
+            for a_ in env.actions:
+                q_[a_] = features_.dot(theta[i])
+            delta = delta + gamma_decay[i]*q_[epgreedy(epsilon[i], q_)]
+            theta = theta + eta[i]*delta*features
             features = features_
 
     
