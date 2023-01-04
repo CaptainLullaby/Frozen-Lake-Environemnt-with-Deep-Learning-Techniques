@@ -1,6 +1,6 @@
-from _init_._init_ import *
 from _init_.Epsilongreedy import epgreedy
 import numpy as np
+import random
 
 def linear_q_learning(env, max_episodes, eta, gamma, epsilon, seed=None):
     random_state = np.random.RandomState(seed)
@@ -22,13 +22,17 @@ def linear_q_learning(env, max_episodes, eta, gamma, epsilon, seed=None):
         while not done:
             features_, r, done = env.step(a)
             a_ = epgreedy(epsilon[i], q)
-            ap = epgreedy(epsilon[i], a_)
+            pos = np.array(np.where(q.max() == q), dtype = float)
+            if a_ in pos:
+                ap = a_
+            else:
+                ap = random.choices(pos)
             e = e + features[a]
             theta = theta + eta[i] * (r + gamma * q[ap] - q[a]) * e
             if ap == a_: 
                 e = gamma_decay[i] * e + features[a]
             else:
-                e = 0
+                e = np.zeros(env.n_features)
             a = a_
             features = features_
 

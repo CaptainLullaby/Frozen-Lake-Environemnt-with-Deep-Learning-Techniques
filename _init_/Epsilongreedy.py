@@ -7,6 +7,4 @@ def epgreedy(epsilon, q):
         return random.randint(0, 3)
     
     else:
-        if type(q) == int:
-            return q
         return q.argmax()  

@@ -16,11 +16,10 @@ class FrozenLakeImageWrapper:
         
         self.state_image = {lake.absorbing_state: np.stack([np.zeros(lake.shape)] + lake_image)}
         
-        state_shape = list(self.state_shape)
-        state_shape[0] = check_char(lake, "@")
-        state_shape[1] = check_char(lake, "&")
-        state_shape[2] = check_char(lake, "#")
-        state_shape[3] = check_char(lake, "$")
+        player_state = check_char(lake, "@")
+        start_state = check_char(lake, "&")
+        hole_state = check_char(lake, "#")
+        goal_state = check_char(lake, "$")
                 
 
     def encode_state(self, state):
@@ -82,8 +81,9 @@ class DeepQNetwork(torch.nn.Module):
 
         target = torch.Tensor(rewards) + gamma * next_q
 
-        loss = np.mean((q - target)**2) # the loss is the mean squared error between `q` and `target`
-
+         # the loss is the mean squared error between `q` and `target`
+         mse = torch.nn.MSE
+         
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()    
