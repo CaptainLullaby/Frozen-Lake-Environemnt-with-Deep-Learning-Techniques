@@ -13,7 +13,7 @@ gamma = 0.5
 max_episodes = 4000
 linear_env = LinearWrapper(env)
 
-play(env)
+#play(env)
 
 
 print('# Model-based algorithms')

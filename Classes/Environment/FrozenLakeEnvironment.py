@@ -1,4 +1,4 @@
-from Environment.EnvironmentModel import *
+from Classes.Environment.EnvironmentModel import *
 from _init_.contextlib import _printoptions
 import numpy as np
        
@@ -175,6 +175,9 @@ class FrozenLake(Environment):
         
         else:
             return 0
+    
+    def a(self, state):
+        return self.actions
     
 
     def render(self, policy=None, value=None):
