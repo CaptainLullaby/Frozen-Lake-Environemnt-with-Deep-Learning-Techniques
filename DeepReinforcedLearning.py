@@ -16,10 +16,20 @@ class FrozenLakeImageWrapper:
         
         self.state_image = {lake.absorbing_state: np.stack([np.zeros(lake.shape)] + lake_image)}
         
-        player_state = check_char(lake, "@")
-        start_state = check_char(lake, "&")
-        hole_state = check_char(lake, "#")
-        goal_state = check_char(lake, "$")
+        start_state = np.zeros(lake.shape)
+        start_state = np.where(lake == "&", 1, 0)
+        goal_state = np.zeros(lake.shape)
+        goal_state = np.where(lake == "$", 1, 0)
+        hole_state = np.zeros(lake.shape)
+        hole_state = np.where(lake == "#", 1, 0)
+        
+        player_state = np.zeros(lake.shape)
+        for state in range(lake.size):
+            #player position
+            player_state[state/lake.shape[0]][state%lake.shape[1]] = 1
+                
+            self.state_image[state] = []
+            
                 
 
     def encode_state(self, state):
@@ -60,10 +70,18 @@ class DeepQNetwork(torch.nn.Module):
         self.output_layer = torch.nn.Linear(in_features=fc_out_features, out_features=env.n_actions)
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr=learning_rate)
+        self.relu = torch.nn.ReLU()
+        #self.flatten = 
 
     def forward(self, x):
         x = torch.tensor(x, dtype=torch.float)
-        # 
+        x = self.conv_layer(x)
+        x = self.relu(x)
+        #x = x.
+        x = self.fc_layer(x)
+        x = self.relu(x)
+        x = self.output_layer(x)
+        return x
 
     def train_step(self, transitions, gamma, tdqn):
         states = np.array([transition[0] for transition in transitions])
@@ -82,8 +100,8 @@ class DeepQNetwork(torch.nn.Module):
         target = torch.Tensor(rewards) + gamma * next_q
 
          # the loss is the mean squared error between `q` and `target`
-         mse = torch.nn.MSE
-         
+        mse = torch.nn.MSELoss()
+        loss = (q - target)
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()    
@@ -101,8 +119,10 @@ class ReplayBuffer:
         self.buffer.append(transition)
 
     def draw(self, batch_size):
-        #
-        pass
+        batch = self.buffer
+        while len(batch) <= batch_size:
+            batch.popleft()
+        return batch
         
 def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, batch_size, target_update_frequency, buffer_size, kernel_size, conv_out_channels, fc_out_features, seed):
     random_state = np.random.RandomState(seed)
