@@ -1,4 +1,3 @@
-from _init_._init_ import *
 import numpy as np
 
 class EnvironmentModel:

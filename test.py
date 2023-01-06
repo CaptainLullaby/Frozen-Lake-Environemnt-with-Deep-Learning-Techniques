@@ -3,10 +3,14 @@ from DeepReinforcedLearning import *
 
 #big lake
 
-lake = [['&', '.', '.', '.'],
-        ['.', '#', '.', '#'],
-        ['.', '.', '.', '#'],
-        ['#', '.', '.', '$']]
+lake =  [['&', '.', '.', '.', '.', '.', '.', '.'],
+             ['.', '.', '.', '.', '.', '.', '.', '.'],
+             ['.', '.', '.', '#', '.', '.', '.', '.'],
+             ['.', '.', '.', '.', '.', '#', '.', '.'],
+             ['.', '.', '.', '#', '.', '.', '.', '.'],
+             ['.', '#', '#', '.', '.', '.', '#', '.'],
+             ['.', '#', '.', '.', '#', '.', '#', '.'],
+             ['.', '.', '.', '#', '.', '.', '.', '$']]
 
 seed = 0
 env = FrozenLake(lake, slip=0.1, max_steps=16, seed=0)
@@ -18,9 +22,14 @@ linear_env = LinearWrapper(env)
 
 image_env = FrozenLakeImageWrapper(env)
 
+print('')
 
-print('## Deep Q-network learning')
+print('## Policy iteration')
+policy, value = policy_iteration(env, gamma, theta=0.001, max_iterations=128)
+env.render(policy, value)
 
-dqn = deep_q_network_learning(image_env, max_episodes, learning_rate=0.001, gamma=gamma,  epsilon=0.2, batch_size=32, target_update_frequency=4, buffer_size=256, kernel_size=3, conv_out_channels=4, fc_out_features=8, seed=4)
-policy, value = image_env.decode_policy(dqn)
-image_env.render(policy, value)
+print('')
+
+print('## Value iteration')
+policy, value = value_iteration(env, gamma, theta=0.001, max_iterations=128)
+env.render(policy, value)
