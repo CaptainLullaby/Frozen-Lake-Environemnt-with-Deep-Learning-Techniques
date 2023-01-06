@@ -1,5 +1,6 @@
 import torch
 import numpy as np
+from collections import deque
 
 class FrozenLakeImageWrapper:
     def __init__(self, env):
@@ -12,7 +13,7 @@ class FrozenLakeImageWrapper:
 
         lake_image = [(lake == c).astype(float) for c in ['&', '#', '$']]
 
-        self.state_image = {lake.absorbing_state: 
+        self.state_image = {env.absorbing_state: 
                             np.stack([np.zeros(lake.shape)] + lake_image)}
         
         player = np.zeros(lake.shape)
@@ -67,10 +68,12 @@ class DeepQNetwork(torch.nn.Module):
     def forward(self, x):
         x = torch.tensor(x, dtype=torch.float)
         
-        relu = torch.nn.ReLU6()
+        relu = torch.nn.ReLU()
+        flatten = torch.nn.Flatten()
         
         x = self.conv_layer(x)
         x = relu(x)
+        x = flatten(x)
         x = self.fc_layer(x)
         x = relu(x)
         x = self.output_layer(x)

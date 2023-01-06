@@ -51,7 +51,7 @@ def value_iteration(env, gamma, theta, max_iterations, value=None):
     if value is None:
         value = np.zeros(env.n_states)
     else:
-        value = np.array(value, dtype=np.float)
+        value = np.array(value, dtype=np.float32)
         
     policy = np.zeros(env.n_states, dtype = int)
     iter = 0

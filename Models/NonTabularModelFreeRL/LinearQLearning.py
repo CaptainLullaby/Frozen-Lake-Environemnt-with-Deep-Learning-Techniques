@@ -21,20 +21,25 @@ def linear_q_learning(env, max_episodes, eta, gamma, epsilon, seed=None):
         
         while not done:
             features_, r, done = env.step(a)
+            q_ = features_.dot(theta)
             a_ = epgreedy(epsilon[i], q)
-            pos = np.array(np.where(q.max() == q), dtype = float)
+            pos = np.array(np.where(q.max() == q))
             if a_ in pos:
                 ap = a_
             else:
                 ap = random.choices(pos)
             e = e + features[a]
-            theta = theta + eta[i] * (r + gamma * q[ap] - q[a]) * e
+            theta = theta + eta[i] * (r + gamma * q_[ap] - q[a]) * e
+            print("\nTheta:", theta.shape)
+            print("\nq:", q.shape)
+            print("\nq_:", q_.shape)
             if ap == a_: 
-                e = gamma_decay[i] * e + features[a]
+                e = gamma_decay[i] * e + features_[a]
             else:
                 e = np.zeros(env.n_features)
             a = a_
             features = features_
+            q = q_
 
 
     return theta 
