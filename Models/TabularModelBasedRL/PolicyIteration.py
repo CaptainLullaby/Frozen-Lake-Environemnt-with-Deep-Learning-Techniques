@@ -2,7 +2,7 @@ from _init_._init_ import *
 import numpy as np
 
 def policy_evaluation(env, policy, gamma, theta, max_iterations = 0):
-    value = np.zeros(env.n_states, dtype=np.float)
+    value = np.zeros(env.n_states, dtype=np.float32)
     
     iter = 0
     
