@@ -28,7 +28,7 @@ class FrozenLakeImageWrapper:
             #player position
             player_state[state/lake.shape[0]][state%lake.shape[1]] = 1
                 
-            self.state_image[state] = []
+            self.state_image[state] = [player_state, start_state, hole_state, goal_state]
             
                 
 
@@ -71,13 +71,13 @@ class DeepQNetwork(torch.nn.Module):
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr=learning_rate)
         self.relu = torch.nn.ReLU()
-        #self.flatten = 
+        self.flatten = torch.nn.Flatten()
 
     def forward(self, x):
         x = torch.tensor(x, dtype=torch.float)
         x = self.conv_layer(x)
         x = self.relu(x)
-        #x = x.
+        x = self.flatten(x)
         x = self.fc_layer(x)
         x = self.relu(x)
         x = self.output_layer(x)
