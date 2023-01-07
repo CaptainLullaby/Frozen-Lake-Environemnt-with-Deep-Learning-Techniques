@@ -1,0 +1,5 @@
+Q1.
+Value iteration  512 max_iterations
+Policy iteration 512 max_iterations
+
+Q2.
