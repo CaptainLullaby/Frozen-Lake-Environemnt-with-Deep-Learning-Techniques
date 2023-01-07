@@ -6,6 +6,7 @@ class Environment(EnvironmentModel):
         
         self.max_steps = max_steps
         
+        
         self.pi = pi
         if self.pi is None:
             self.pi = np.full(n_states, 1./n_states)

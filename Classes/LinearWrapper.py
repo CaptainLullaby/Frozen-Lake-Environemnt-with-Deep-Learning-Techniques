@@ -3,7 +3,6 @@ from _init_._init_ import *
 class LinearWrapper:
     def __init__(self, env):
         self.env = env
-        
         self.n_actions = self.env.n_actions
         self.n_states = self.env.n_states
         self.n_features = self.n_actions * self.n_states

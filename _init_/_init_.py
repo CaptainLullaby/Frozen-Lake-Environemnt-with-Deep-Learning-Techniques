@@ -6,7 +6,7 @@ from Models.TabularModelBasedRL.PolicyIteration import *
 from Models.TabularModelBasedRL.ValueIteration import *
 from Models.TabularModelFreeRL.SarsaLearning import *
 from Models.TabularModelFreeRL.QLearning import *
+from DeepReinforcedLearning import *
 from _init_.playEnv import *
 from _init_.contextlib import *
-#from DeepReinforcedLearning import *
 import numpy as np
