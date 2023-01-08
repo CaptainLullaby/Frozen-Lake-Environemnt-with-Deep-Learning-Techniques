@@ -1,5 +1,5 @@
 from _init_._init_ import *
-from DeepReinforcedLearning import *
+from Models.DeepReinforcedLearning import *
 #big lake
 
 # lake =  [['&', '.', '.', '.', '.', '.', '.', '.'],
