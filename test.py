@@ -1,5 +1,4 @@
-from _init_._init_ import *
-from Models.DeepReinforcedLearning import *
+from Main._init_._init_ import *
 #big lake
 
 # lake =  [['&', '.', '.', '.', '.', '.', '.', '.'],
@@ -21,7 +20,7 @@ gamma = 0.5
 max_episodes = 4000
 linear_env = LinearWrapper(env)
 
-#play(env)
+# play(env)
 
 image_env = FrozenLakeImageWrapper(env)
 
@@ -65,7 +64,7 @@ image_env = FrozenLakeImageWrapper(env)
 # policy, value = linear_env.decode_policy(parameters)
 # linear_env.render(policy, value)
 
-# print('')
+print('')
 
 print('## Deep Q-network learning')
 

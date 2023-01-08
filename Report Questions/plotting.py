@@ -1,4 +1,4 @@
-from _init_._init_ import *
+from Main._init_._init_ import *
 import matplotlib.pyplot as plt
 
 lake = [['&', '.', '.', '.'],
