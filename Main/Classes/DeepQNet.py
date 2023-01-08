@@ -20,7 +20,7 @@ class DeepQNetwork(torch.nn.Module):
 
     def forward(self, x):
         x = torch.tensor(x, dtype=torch.float)
-        return self.output_layer(self.relu(self.fc_layer(self.relu(self.flatten(self.conv_layer(x))))))
+        return self.output_layer(self.relu(self.fc_layer(self.flatten(self.relu(self.conv_layer(x))))))
 
     def train_step(self, transitions, gamma, tdqn):
         states = np.array([transition[0] for transition in transitions])
