@@ -23,9 +23,9 @@ class FrozenLakeImageWrapper:
         player_state = np.zeros(lake.shape)
         for state in range(lake.size):
             #player position
-            player_state[state%lake.shape[0]][state//lake.shape[1]] = 1
+            player_state[state % lake.shape[0]][state // lake.shape[1]] = 1
                 
-            self.state_image[state] = [ start_state, hole_state, goal_state, player_state]
+            self.state_image[state] = [player_state, start_state, hole_state, goal_state]
             
                 
 
