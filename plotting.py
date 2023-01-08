@@ -12,8 +12,12 @@ gamma = 0.5
 max_episodes = 4000
 linear_env = LinearWrapper(env)
 
-parameters, ret = linear_q_learning(linear_env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, plot = True, seed=seed)
+ret = linear_q_learning(linear_env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, plot = True, seed=seed)
 y = np.convolve(ret, np.ones(20)/20, mode= 'valid')
-print(y)
-plt.plot( y, c = "red")
+
+plt.plot( y, c = "red", label = "Learning curve")
+plt.title("Linear Q Learning Control")
+plt.xlabel(" Number of episodes")
+plt.ylabel(" Discounted returns")
+plt.legend()
 plt.show()

@@ -9,4 +9,7 @@ from Models.TabularModelFreeRL.QLearning import *
 from DeepReinforcedLearning import *
 from _init_.playEnv import *
 from _init_.contextlib import *
+from collections import deque
 import numpy as np
+import torch
+import random

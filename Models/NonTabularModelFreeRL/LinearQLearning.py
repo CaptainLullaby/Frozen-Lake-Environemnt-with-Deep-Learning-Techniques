@@ -12,10 +12,9 @@ def linear_q_learning(env, max_episodes, eta, gamma, epsilon, plot = False, seed
     gamma_decay = np.linspace(gamma, 0, max_episodes)
 
     returns = []
-    
+    disc_ret = 0
     
     for i in range(max_episodes):
-        disc_ret = 0
         features = env.reset()
         q = features.dot(theta)
         a = epgreedy(epsilon[i], q)
@@ -24,25 +23,27 @@ def linear_q_learning(env, max_episodes, eta, gamma, epsilon, plot = False, seed
         cde=0
         while not done:
             features_, r, done = env.step(a)
+            q_ = features_.dot(theta)
             a_ = epgreedy(epsilon[i], q)
-            pos = np.array(np.where(q.max() == q))
+            pos = np.flatnonzero(q == q.max())
             if a_ in pos:
                 ap = a_
             else:
-                ap = random.choices(pos)
+                ap = random.choice(pos)
             e = e + features[a]
-            theta = theta + eta[i] * (r + gamma * q[ap] - q[a]) * e
+            theta = theta + eta[i] * (r + gamma * q_[ap] - q[a]) * e
             if ap == a_: 
-                e = gamma_decay[i] * e + features_[a]
+                e = gamma_decay[i] * e + features_[ap]
             else:
                 e = np.zeros(env.n_features)
             a = a_
             features = features_
+            q = q_
             disc_ret += (gamma**(cde - 1))*r
             cde+=1
         returns.append(disc_ret)
     
     if plot:
-        return theta, returns
+        return returns
     else:
         return theta 

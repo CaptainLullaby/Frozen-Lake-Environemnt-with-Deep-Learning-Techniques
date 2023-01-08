@@ -70,7 +70,7 @@ class DeepQNetwork(torch.nn.Module):
         self.output_layer = torch.nn.Linear(in_features=fc_out_features, out_features=env.n_actions)
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr=learning_rate)
-        self.relu = torch.nn.ReLU6()
+        self.relu = torch.nn.ReLU()
         self.flatten = torch.nn.Flatten()
 
     def forward(self, x):
@@ -122,7 +122,8 @@ class ReplayBuffer:
     def draw(self, batch_size):
         batch = list()
         for i in range(batch_size):
-            batch.append(self.buffer.popleft())
+            batch.append(self.buffer.pop())
+            random.shuffle(self.buffer)
         return batch
         
 def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, batch_size, target_update_frequency, buffer_size, kernel_size, conv_out_channels, fc_out_features, seed):
