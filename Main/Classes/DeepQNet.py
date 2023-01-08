@@ -42,4 +42,4 @@ class DeepQNetwork(torch.nn.Module):
         
         self.optimizer.zero_grad()
         loss.backward()
-        self.optimizer.step()    
+        self.optimizer.step() 

@@ -3,7 +3,7 @@ from Main.Classes.FrozenLakeWrapper import *
 from Main.Classes.DeepQNet import *
 import numpy as np
         
-def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, batch_size, target_update_frequency, buffer_size, kernel_size, conv_out_channels, fc_out_features, seed):
+def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, batch_size, target_update_frequency, buffer_size, kernel_size, conv_out_channels, fc_out_features, seed, plot = False):
     random_state = np.random.RandomState(seed)
     replay_buffer = ReplayBuffer(buffer_size, random_state)
 
@@ -12,9 +12,14 @@ def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, ba
 
     epsilon = np.linspace(epsilon, 0, max_episodes)
     
+    returns = []
+    disc_ret = 0
+    
     for i in range(max_episodes):
         state = env.reset()
         done = False
+        cde = 0
+        
         while not done:
             if random_state.rand() < epsilon[i]:
                 action = random_state.choice(env.n_actions)
@@ -35,8 +40,16 @@ def deep_q_network_learning(env, max_episodes, learning_rate, gamma, epsilon, ba
             if len(replay_buffer) >= batch_size:
                 transitions = replay_buffer.draw(batch_size)
                 dqn.train_step(transitions, gamma, tdqn)
+            
+            disc_ret += (gamma**(cde - 1))*reward
+            cde+=1
 
         if (i % target_update_frequency) == 0:
             tdqn.load_state_dict(dqn.state_dict())
+        
+        returns.append(disc_ret)
 
-    return dqn
+    if plot:
+        return returns
+    else:
+        return dqn
