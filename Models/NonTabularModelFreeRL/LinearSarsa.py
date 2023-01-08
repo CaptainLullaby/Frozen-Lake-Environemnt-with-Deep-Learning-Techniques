@@ -24,12 +24,14 @@ def linear_sarsa(env, max_episodes, eta, gamma, epsilon,plot = False, seed=None)
         
         while not done:
             features_, r, done = env.step(a)
+            q_ = features_.dot(theta)
             a_ = epgreedy(epsilon[i], q)
             e = e + features[a]
-            theta += eta[i] * (r + gamma * q[a_] - q[a]) * e 
-            e = gamma_decay[i] * e + features[a]
+            theta += eta[i] * (r + gamma * q_[a_] - q[a]) * e 
+            e = gamma_decay[i] * e + features_[a_]
             a = a_
             features = features_
+            q = q_
             disc_ret += (gamma**(cde - 1))*r
             cde+=1
         returns.append(disc_ret)

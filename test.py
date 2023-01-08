@@ -1,5 +1,4 @@
 from _init_._init_ import *
-from DeepReinforcedLearning import *
 
 #big lake
 
@@ -60,11 +59,11 @@ image_env = FrozenLakeImageWrapper(env)
 
 # print('')
 
-print('## Linear Q-learning')
+# print('## Linear Q-learning')
 
-parameters = linear_q_learning(linear_env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
-policy, value = linear_env.decode_policy(parameters)
-linear_env.render(policy, value)
+# parameters = linear_q_learning(linear_env, max_episodes, eta=0.5, gamma=gamma, epsilon=0.5, seed=seed)
+# policy, value = linear_env.decode_policy(parameters)
+# linear_env.render(policy, value)
 
 # print('')
 
