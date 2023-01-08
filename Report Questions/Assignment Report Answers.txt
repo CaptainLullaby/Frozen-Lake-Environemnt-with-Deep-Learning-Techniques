@@ -2,7 +2,25 @@ Q1.
 Value iteration  10 max_iterations
 Policy iteration 5 max_iterations
 
-Q2. (check "Plots" folder)
+Q2.
+ (check "Plots" folder)
+
+Q3.
+Small Lake:
+    Sarsa Control:
+        max_episodes = 1400
+        eta = 0.3
+        epsilon = 0.7
+
+    Q Learning Control:
+        max_episodes = 1500
+        eta = 0.3
+        epsilon = 0.7
+  
+At higher values of Learning rate we can see that it requires more episodes to compute the optimal policy till 0.6 , then the optimal policy for any number of episodes wont be produced. At epsilon = 0.7 , and with just 1400 episodes we are able to get a consistent policy that is optimal. At lower epsilon values, we have to go for higher episodes as then exploration would be reduced, but at very high epsilons we see that only exploitation occurs.  
+Here sarsa at some seeds can provide optimal paths( but not policies), the testing was done by using a set of learning rates in a for loop and checking which had better policies. Then further testing was done to see the select vlaues shwoing any changes or breaks by repeating the function a few times. These stages after compiling we are able to find that 0.3 and 0.7 was the best combination for learning rate and epsilon respectively.As mentioned before, if given a random seed we are able to generate the same optimal results for even lower episodes.
+The big lake was not compiled successfully as every iteration of the various learning rates and epsilons did not prove optimal to the big lake. Even as far increasing the number of episodes well above 6000 did not prove useful, this can be due to the fact the complexity of reaching the goal state in a very large gridworld makesit difficult to compute and optimal path by the Model-Free methods, this causes the algorithm to fail.
+
 
 Q4.
 In linear action-value function approximation, the parameter vector θ is a weight vector that is used to combine the feature vectors for each possible pair of state s and action a. Each element of θ corresponds to a particular feature in the feature vectors, and the value of that element determines the weight that is given to that feature when the feature vector is combined with the rest of the feature vectors to approximate the action-value function.
