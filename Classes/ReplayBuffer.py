@@ -13,8 +13,4 @@ class ReplayBuffer:
         self.buffer.append(transition)
 
     def draw(self, batch_size):
-        batch = list()
-        for i in range(batch_size):
-            batch.append(self.buffer.popleft())
-            self.buffer.rotate(random.randint(0, len(self.buffer)))
-        return batch
+        return random.sample(self.buffer, batch_size)

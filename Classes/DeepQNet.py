@@ -41,7 +41,7 @@ class DeepQNetwork(torch.nn.Module):
          # the loss is the mean squared error between `q` and `target`
         mse = torch.nn.MSELoss()
         q = torch.Tensor.double(q)
-        loss = mse(q, target)
+        loss = mse(q, target.detach())
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()    
