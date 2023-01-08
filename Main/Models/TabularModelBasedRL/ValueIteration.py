@@ -22,6 +22,8 @@ def value_iteration(env, gamma, theta, max_iterations, value=None):
             break
         iter += 1
     
+    print("\nNo of iters = ", iter)
+    
     for s in range(env.n_states):
         policy[s] = np.argmax([sum([env.p(ns, s, a) * (env.r(ns, s, a) + gamma * value[ns]) for ns in range(env.n_states)]) for a in range(env.n_actions)])
         

@@ -13,5 +13,5 @@ class ReplayBuffer:
         self.buffer.append(transition)
 
     def draw(self, batch_size):
-        random.shuffle(self.buffer)
-        return random.sample(self.buffer, batch_size)
+        batch_i = self.random_state.choice(len(self.buffer), batch_size, replace = False)
+        return [self.buffer[i] for i in batch_i]

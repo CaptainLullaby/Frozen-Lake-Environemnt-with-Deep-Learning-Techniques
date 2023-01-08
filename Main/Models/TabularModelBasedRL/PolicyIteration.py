@@ -39,9 +39,13 @@ def policy_iteration(env, gamma, theta, max_iterations, policy=None):
     
     flag = False
     
+    i = 0
     while not flag:
+        i += 1
         value = policy_evaluation(env, policy, gamma, theta, max_iterations)
         flag = policy_improvement(env, policy, value, gamma)
+    
+    print("\nNo of iters = ", i)
         
     return policy, value
     

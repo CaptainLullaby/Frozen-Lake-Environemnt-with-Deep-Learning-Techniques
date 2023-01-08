@@ -15,12 +15,11 @@ class DeepQNetwork(torch.nn.Module):
         self.output_layer = torch.nn.Linear(in_features=fc_out_features, out_features=env.n_actions)
 
         self.optimizer = torch.optim.Adam(self.parameters(), lr=learning_rate)
-        self.relu = torch.nn.ReLU()
         self.flatten = torch.nn.Flatten()
 
     def forward(self, x):
         x = torch.tensor(x, dtype=torch.float)
-        return self.output_layer(self.relu(self.fc_layer(self.flatten(self.relu(self.conv_layer(x))))))
+        return self.output_layer(torch.nn.functional.relu(self.fc_layer(self.flatten(torch.nn.functional.relu(self.conv_layer(x))))))
 
     def train_step(self, transitions, gamma, tdqn):
         states = np.array([transition[0] for transition in transitions])
@@ -39,9 +38,8 @@ class DeepQNetwork(torch.nn.Module):
         target = torch.Tensor(rewards) + gamma * next_q
 
          # the loss is the mean squared error between `q` and `target`
-        mse = torch.nn.MSELoss()
-        q = torch.Tensor.double(q)
-        loss = mse(q, target.detach())
+        loss = ((q - target)**2).mean()
+        
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()    

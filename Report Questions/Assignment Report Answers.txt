@@ -1,8 +1,8 @@
 Q1.
-Value iteration  512 max_iterations
-Policy iteration 512 max_iterations
+Value iteration  10 max_iterations
+Policy iteration 5 max_iterations
 
-Q3. (check "Plots" folder)
+Q2. (check "Plots" folder)
 
 Q4.
 In linear action-value function approximation, the parameter vector θ is a weight vector that is used to combine the feature vectors for each possible pair of state s and action a. Each element of θ corresponds to a particular feature in the feature vectors, and the value of that element determines the weight that is given to that feature when the feature vector is combined with the rest of the feature vectors to approximate the action-value function.
