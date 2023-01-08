@@ -1,2 +1,0 @@
-# FrozenLakeEnvironment
-### by Chris Payyappilly
