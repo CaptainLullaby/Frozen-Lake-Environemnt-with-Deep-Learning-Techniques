@@ -1,0 +1,19 @@
+Q1.
+Value iteration  512 max_iterations
+Policy iteration 512 max_iterations
+
+Q3. (check "Plots" folder)
+
+Q4.
+In linear action-value function approximation, the parameter vector θ is a weight vector that is used to combine the feature vectors for each possible pair of state s and action a. Each element of θ corresponds to a particular feature in the feature vectors, and the value of that element determines the weight that is given to that feature when the feature vector is combined with the rest of the feature vectors to approximate the action-value function.
+
+Tabular model-free reinforcement learning algorithms are a special case of non-tabular model-free reinforcement learning algorithms because they rely on a table to store and update the estimates of the action-value function. In a tabular model-free reinforcement learning algorithm, the estimates of the action-value function are stored in a table, and the table is updated at each time step based on the observed state and action and the resulting reward.
+On the other hand, non-tabular model-free reinforcement learning algorithms do not rely on a table to store and update the estimates of the action-value function. Instead, they use function approximation techniques, such as linear function approximation or neural network function approximation, to approximate the action-value function. In these algorithms, the estimates of the action-value function are not stored in a table, but are represented as a set of parameters in a parametric function approximator. The parameters of the function approximator are updated at each time step based on the observed state and action and the resulting reward.
+
+Q5.
+
+If the agent were to always act greedily with respect to Q, it would only select the actions that it thinks will lead to the highest reward based on its current knowledge. This might lead the agent to become stuck in a suboptimal policy, whereas  if the agent were to always act randomly, it would not make use of its current knowledge and would not be able to learn about the consequences of its actions. This would make it difficult for the agent to learn an optimal policy.
+By using an ε-greedy policy, the agent is able to balance the trade-off between exploration and exploitation, allowing it to learn about the consequences of its actions while still making use of its current knowledge. This can help the agent learn an optimal policy more efficiently.
+
+Q6.
+The authors of the DQN paper argue that using a target Q-network can help reduce the correlations between the action-values and the target values, which can lead to more stable learning. They also note that using a target Q-network can help reduce the risk of the learning process becoming destabilized due to the changing nature of the online Q-network's estimates. Overall, the use of a target Q-network can help improve the performance of the DQN algorithm, leading to better solutions to the reinforcement learning problem.
