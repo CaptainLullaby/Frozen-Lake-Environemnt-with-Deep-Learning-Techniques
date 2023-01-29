@@ -1,0 +1,6 @@
+# AI-in-Games---Assignment
+An environment to test out dfferent learning methods that can implement the best policy for the evironment to reach the goal state with minimal loss and maximum reward.
+
+This project basically contains the cobined effort of my teammate tore and me in an effort to create various learning algorithms for a simple game in a gridworld.
+## The objective is create a game and apply said learning methods to it, so for that we can first import a grid world to the system and make it such that the gridworld prints all the necessary information into the system, that is the player location and other entities, the code has already been developed by our module professor, Paulo Rauber, so we only need to implement the various functions needed to update the positioning. 
+The gridworld game been used here is the FrozenLake: It is a grid like game with each tile being either a forzen tile or a hole, if the player is standing on a frozen tile, then the player has a chance to slip to any one of the directions when they make a move otherwise if they are standing on a hole then they will fall to the hole and the game is over. Th egoal of the game is spawn at the start point which is the corner of the map and to reach the endpoint which located at the other diagonally oposite 
